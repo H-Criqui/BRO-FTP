@@ -55,16 +55,20 @@ namespace BRO_FTP
                 byte[] infoBytes = reader.ReadBytes(infoLength);
                 string[] payloadInfo = Encoding.UTF8.GetString(infoBytes).Split(' ');
 
+                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string corrpath = path.Substring(0, path.Length - 23);
+                string finpath = Path.Combine(corrpath, "Properties\\share_folder");
+                string[] files = Directory.GetFiles(finpath);
 
                 switch (payloadInfo[0])
                 {
                     case "1":
                         int payloadLength = IPAddress.NetworkToHostOrder(reader.ReadInt32());
                         byte[] payloadBytes = reader.ReadBytes(payloadLength);
-                        File.WriteAllBytes(Path.Join(Directory.GetCurrentDirectory(), payloadInfo[2]), payloadBytes);
+                        File.WriteAllBytes(Path.Join(finpath, payloadInfo[2]), payloadBytes);
                         break;
                     case "2":
-                        Send.sendFile(payloadInfo[2], writer);
+                        Send.sendFile(Path.Join(finpath, payloadInfo[2]), writer);
                         break;
                     case "3":
                         Rec.listRes(client);
@@ -91,8 +95,10 @@ namespace BRO_FTP
                 stream = new BufferedStream(client.GetStream());
                 writer = new BinaryWriter(stream);
 
-                string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "share_folder");
-                string[] files = Directory.GetFiles(path);
+                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string corrpath = path.Substring(0, path.Length - 23);
+                string finpath = Path.Combine(corrpath, "Properties\\share_folder");
+                string[] files = Directory.GetFiles(finpath);
                 
 
                 //System.IO.DriveInfo di = new System.IO.DriveInfo(Directory.GetCurrentDirectory());
