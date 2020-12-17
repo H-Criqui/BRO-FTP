@@ -58,7 +58,6 @@ namespace BRO_FTP
                 string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string corrpath = path.Substring(0, path.Length - 23);
                 string finpath = Path.Combine(corrpath, "Properties\\share_folder");
-                string[] files = Directory.GetFiles(finpath);
 
                 switch (payloadInfo[0])
                 {
@@ -68,7 +67,7 @@ namespace BRO_FTP
                         File.WriteAllBytes(Path.Join(finpath, payloadInfo[2]), payloadBytes);
                         break;
                     case "2":
-                        Send.sendFile(Path.Join(finpath, payloadInfo[2]), writer);
+                        Send.sendFile(Path.Join(finpath, payloadInfo[1]), writer);
                         break;
                     case "3":
                         Rec.listRes(client);

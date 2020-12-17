@@ -14,7 +14,7 @@ namespace BRO_FTP
 {
     class Req
     {
-        public static void getFile(string file, BinaryWriter writer, BinaryReader reader)
+        public static void getFile(string file, BinaryWriter writer)
         {
             byte[] package = new byte[0];
             byte[] payloadInfoBytes = new byte[0];
@@ -32,10 +32,6 @@ namespace BRO_FTP
 
                 writer.Flush();
 
-                writer.Write(IPAddress.HostToNetworkOrder(package.Length));
-                writer.Write(package);
-
-                writer.Flush();
 
                 /*
                 int resLength = IPAddress.NetworkToHostOrder(reader.ReadInt32());

@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace BRO_FTP
 {
@@ -20,7 +25,11 @@ namespace BRO_FTP
 
                 payloadInfoBytes = Encoding.UTF8.GetBytes(payloadInfo);
 
-                package = File.ReadAllBytes(file);
+                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string corrpath = path.Substring(0, path.Length - 23);
+                string finpath = Path.Combine(corrpath, "Properties\\share_folder");
+
+                package = File.ReadAllBytes(finpath);
 
                 writer.Write(IPAddress.HostToNetworkOrder(payloadInfoBytes.Length));
                 writer.Write(payloadInfoBytes);
