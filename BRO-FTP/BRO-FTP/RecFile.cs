@@ -48,8 +48,9 @@ namespace BRO_FTP
                 throw ex;
             }
 
+            bool running = true;
 
-            while (true)
+            while (running)
             {
                 int infoLength = IPAddress.NetworkToHostOrder(reader.ReadInt32());
                 byte[] infoBytes = reader.ReadBytes(infoLength);
@@ -71,6 +72,9 @@ namespace BRO_FTP
                         break;
                     case "3":
                         Rec.listRes(client);
+                        break;
+                    case "4":
+                        running = false;
                         break;
 
                 }

@@ -11,7 +11,7 @@ namespace BRO_FTP
 {    class Listener
     {
 
-        static void TCPListener()
+        static void TCPListener(bool running)
         {
             TcpListener server = null;
 
@@ -29,6 +29,7 @@ namespace BRO_FTP
 
                 // Start listening for connections
                 server.Start();
+                
 
                 // Enter the listening loop waiting for connection
 
@@ -89,12 +90,12 @@ namespace BRO_FTP
 
         public static void Main()
         {
-            
+            bool running = true;
             // Starts connection thread
             Thread thread = new Thread(() =>
             {
                 //Thread.Sleep(1000);
-                TCPListener();
+                TCPListener(running);
                 //Thread.Sleep(3000);
             });
 
@@ -108,7 +109,7 @@ namespace BRO_FTP
             BufferedStream stream = new BufferedStream(client.GetStream());
             BinaryWriter writer = new BinaryWriter(stream);
 
-            bool running = true;
+
 
             while(running)
             {
@@ -127,9 +128,22 @@ namespace BRO_FTP
                         break;
                     case "quit":
                         running = false;
+
+                        string payloadInfo = "4 ";
+
+                        byte[] payloadInfoBytes = Encoding.UTF8.GetBytes(payloadInfo);
+
+                        writer.Write(IPAddress.HostToNetworkOrder(payloadInfoBytes.Length));
+                        writer.Write(payloadInfoBytes);
+
+                        writer.Flush();
                         break;
                 }
             }
+
+
+            
+
           
             //Thread reqHandler = new Thread(() =>
             //{
