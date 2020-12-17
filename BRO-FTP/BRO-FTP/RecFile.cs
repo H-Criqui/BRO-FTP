@@ -56,8 +56,8 @@ namespace BRO_FTP
                 string[] payloadInfo = Encoding.UTF8.GetString(infoBytes).Split(' ');
 
                 string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string corrpath = path.Substring(0, path.Length - 23);
-                string finpath = Path.Combine(corrpath, "Properties\\share_folder");
+                string corrpath = path.Substring(0, path.Length - 31);
+                string finpath = Path.Combine(corrpath, "share_folder");
 
                 switch (payloadInfo[0])
                 {
